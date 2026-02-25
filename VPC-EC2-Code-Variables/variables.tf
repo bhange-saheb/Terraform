@@ -1,0 +1,11 @@
+variable "region_name" {}
+variable "vpc_cidr_block" {}
+variable "vpc_tag_name" {}
+variable "igw_tag_name" {}
+variable "subnet1_cidr_block" {}
+variable "Az_Subnet1" {}
+variable "subnet2_cidr_block" {}
+variable "Az_Subnet2" {}
+variable "ami_ID" {}
+variable "Ec2_InstacneType" {}
+variable "Ec2_Key" {}
