@@ -1,0 +1,18 @@
+region_name               = "us-east-1"
+vpc_cidr_block            = "172.65.0.0/16"
+vpc_tag_name              = "Terraform-vpc"
+igw_tag_name              = "Terraform-vpc-igw"
+public_subnet_cidr_block  = ["172.65.1.0/24", "172.65.2.0/24", "172.65.3.0/24", ]
+private_subnet_cidr_block = ["172.65.10.0/24", "172.65.20.0/24", "172.65.30.0/24", ]
+Az_Subnet                 = ["us-east-1a", "us-east-1b", "us-east-1c"]
+ingress_value             = ["80", "8080", "443", "8443", "22", "3306", "1900", "1443"]
+ami_IDs = {
+  us-east-1 = "ami-0b6c6ebed2801a5cb"
+  us-east-2 = "ami-0198cdf7458a7a932"
+}
+Ec2_InstacneType = "t2.micro"
+Ec2_Key          = "KomalIDKey"
+environment = {
+  "us-east-1" = "Dev"
+  "us-east-2" = "Prod"
+}

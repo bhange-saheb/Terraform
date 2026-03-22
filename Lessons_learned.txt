@@ -1,0 +1,87 @@
+============================================================
+TERRAFORM LEARNING LOG: MODULES & DATA TYPES
+Project: Development Environment Infrastructure
+Engineer: Komal
+============================================================
+
+------------------------------------------------------------
+1. ERROR: REFERENCE TO UNDECLARED RESOURCE
+------------------------------------------------------------
+SYMPTOM: 
+"A managed resource 'aws_subnet' has not been declared in module..."
+
+CAUSE: 
+Trying to use a resource (like aws_subnet.public) inside an output 
+file that is in a different folder/module than where the resource 
+was actually created.
+
+LESSON: 
+Modules are isolated "Black Boxes." 
+- To use a value from Module A in Module B:
+  1. Create an 'output' in Module A.
+  2. Define a 'variable' in Module B.
+  3. Map them together in the root 'main.tf'.
+
+------------------------------------------------------------
+2. ERROR: INCORRECT ATTRIBUTE VALUE TYPE
+------------------------------------------------------------
+SYMPTOM: 
+"Inappropriate value for attribute 'vpc_id': string required, but have object."
+
+CAUSE: 
+Passing the entire resource block instead of just the ID string.
+Example: vpc_id = module.network_infra (WRONG)
+
+LESSON: 
+Most AWS resources (like Security Groups or Instances) only want 
+the ID String. 
+- Fix: Always append .id to your resource or output value.
+- Correct: vpc_id = module.network_infra.vpc_id
+
+------------------------------------------------------------
+3. ERROR: UNSUPPORTED ATTRIBUTE (PRIMITIVE-TYPED VALUE)
+------------------------------------------------------------
+SYMPTOM: 
+"Can't access attributes on a primitive-typed value (string)."
+
+CAUSE: 
+Trying to use a "splat" (.*.id) on a variable that was already 
+a list of ID strings. You cannot ask a string for its ".id" 
+because it IS the ID.
+
+LESSON: 
+- Use 'resource.name[*].id' when collecting IDs from resources.
+- Use 'var.name[index]' or 'element(var.name, index)' when 
+  using those IDs from a variable list.
+
+------------------------------------------------------------
+4. PRO-TIP: USING TERRAFORM CONSOLE (DEBUGGING)
+------------------------------------------------------------
+The Console allows you to see exactly what Terraform "sees."
+
+HOW TO USE IT:
+1. Open your terminal in the root project folder.
+2. Type: terraform console
+3. Test your variables:
+   > module.developement_infra.vpc_id
+   (It will show you if it's a "vpc-123" string or a {object})
+   
+   > module.developement_infra.public_subnets_id[0]
+   (It will show you the first ID in the list)
+
+WHY IT HELPS:
+It prevents "Trial and Error" deployments. If the console shows 
+you a list when you need a string, you know you need to fix your 
+code before you hit 'apply'.
+
+------------------------------------------------------------
+GOLDEN RULES FOR THE FUTURE:
+------------------------------------------------------------
+1. Always check 'terraform console' to see the "shape" of your data.
+2. Use 'list(string)' for subnets and 'string' for VPC IDs.
+3. Keep naming consistent (watch out for typos like 'componets').
+4. Run 'terraform validate' early and often!
+
+============================================================
+END OF LOG
+============================================================
