@@ -11,7 +11,7 @@ ami_IDs = {
   us-east-2 = "ami-0198cdf7458a7a932"
 }
 Ec2_InstacneType = "t2.micro"
-Ec2_Key          = "KomalIDKey"
+Ec2_Key          = "XXXKey"
 environment = {
   "us-east-1" = "Dev"
   "us-east-2" = "Prod"
